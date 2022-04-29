@@ -1,16 +1,20 @@
-<script>
-</script>
-
 <template>
-  <header>
-    Board
-  </header>
+  <header>Board</header>
 
-  <main>
-    ola mundo
-  </main>
+  <main>{{nome}}</main>
+  
 </template>
 
-<style>
+<script lang="js">
+  export default {
+    computed: {
+      nome(){
+        return this.$store.getters.teste
+      }
+    }
+  }
+  
+</script>
 
+<style>
 </style>
