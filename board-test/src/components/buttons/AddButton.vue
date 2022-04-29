@@ -1,6 +1,7 @@
 <template>
-  <button class="addButton">
+  <button class="addButton" :class="{ 'addButton--bigger': text }">
     <plus />
+    <span v-if="text">{{ text }}</span>
   </button>
 </template>
 
@@ -10,13 +11,34 @@
     components:{
         plus
     },
+    props:{
+        text: String
+    }
   }
   
 </script>
 
-<style style="scss">
-.UIelements {
-  border: 5px solid grey;
-  padding: 40px;
+<style lang="scss">
+.addButton {
+  padding: 10px;
+  background: #ededed;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  color: #333333;
+  
+  span{
+    margin-left: 9px;
+  }
+  &:hover{
+    background-color: #D9D9D9;
+  }
+  &--bigger{
+    padding: 12px 20px;
+    background: #D9D9D9;
+    &:hover{
+      background-color: #D1D1D1;
+    }
+  }
 }
 </style>
