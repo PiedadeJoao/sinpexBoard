@@ -1,6 +1,8 @@
 <template>
   <div class="dropdown">
-    <dots @click="toogleDropdown()" class="dropdown__btn"></dots>
+    <div class="dropdown__dots-cont" @click="toogleDropdown()">
+        <dots class="dropdown__btn"></dots>
+    </div>
     <div :id="'drop' + id" class="dropdown__content">
       <a
         @click="deleteColumn()"
@@ -56,6 +58,13 @@
 
 <style lang="scss">
 .dropdown {
+&__dots-cont{
+    position: relative;
+    height: 15px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
   &__btn {
     cursor: pointer;
     position: relative;

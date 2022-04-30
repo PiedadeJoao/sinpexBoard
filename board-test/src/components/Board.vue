@@ -1,5 +1,5 @@
 <template>
-  <div class="board">
+  <div class="board" id="board">
     <h2>Board</h2>
     <div class="board__container">
       <boardCol
@@ -29,12 +29,31 @@ import addButton from '@/components/buttons/AddButton.vue'
       addColumn(){
         this.$store.commit('addColumn')
       },
+      closeDropdowns(){
+            //close all dropdowns opened
+            let elements = document.getElementsByClassName("dropdown__content")
+
+            for(var i = 0; i < elements.length; i++){
+                if(elements[i].classList.contains("dropdown__content--show"))
+                    elements[i].classList.remove("dropdown__content--show")
+            }
+        },
     },
     computed:{
       getBoard(){
         return this.$store.getters.getBoard
       }
     },
+    mounted(){
+      //close dropdowns whereever user click
+      board.addEventListener('click', function(){
+        if(event.target.classList.contains('dropdown__option') || event.target.classList.contains('dropdown__dots-cont') || event.target.classList.contains('dots-hide') || event.target.classList.contains('dropdown__btn')){
+          return
+        }else{
+          this.closeDropdowns()
+        }
+      }.bind(this))
+    }
   }
   
 </script>
