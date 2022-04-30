@@ -10,7 +10,7 @@
         <dropdownBtn id="drop1"></dropdownBtn>
         <hr/>
         <hr/>
-        <boardCol :text="'TODO'" :cards="columns" :btn="true" :cardId="'0'"></boardCol>
+        <boardCol :text="'TODO'" :cards="rows" :cardId="'0'"></boardCol>
     </section>
 </template>
 
@@ -29,7 +29,7 @@ import boardCol from './components/BoardCol.vue'
     },
     data(){
         return {
-            columns: [{
+            rows: [{
                 title: 'Case 1',
                 percentage: "20",
                 subtitle: 'Updated 3 days ago'
