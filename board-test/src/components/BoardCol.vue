@@ -102,8 +102,10 @@ import pencil from '@/assets/svg/pencil.svg'
         if(change)
           this.changeName(input.value)
 
-        //update size
-        input.style.width = inputSize.offsetWidth + 10 + "px";
+        //update size && ellipsis when overflow
+        input.style.width = inputSize.offsetWidth + 20 + "px";
+        if(inputSize.offsetWidth + 14 >= 210)
+          input.classList.add('board-column__input--overflow')
       },
       edit(){
         this.writable = !this.writable
@@ -172,8 +174,11 @@ import pencil from '@/assets/svg/pencil.svg'
       font-size: 14px;
       max-width: 230px;
       font-family: 'Open Sans';
-      text-overflow: ellipsis;
       text-transform: uppercase;
+      
+      &--overflow{
+        text-overflow: ellipsis;
+      }
       &--disabled{
         pointer-events: none;
       }
