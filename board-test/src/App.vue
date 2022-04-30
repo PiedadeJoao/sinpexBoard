@@ -1,25 +1,21 @@
 <template>
-  <header>Board</header>
-
-  <main>{{nome}}</main>
-  <UIElements></UIElements>
+  <Board></Board>
+  <!-- UNCOMMENT TO SEE ALL COMPONENTS -->
+  <!-- <UIElements></UIElements> -->
 </template>
 
 <script lang="js">
 import UIElements from './UiElements.vue'
+import Board from './components/Board.vue'
   export default {
     components:{
-      UIElements
+      UIElements,
+      Board
     },
-    computed: {
-      nome(){
-        return this.$store.getters.teste
-      }
-    }
   }
   
 </script>
 
 <style lang="scss">
-  @import './assets/sass/global.scss';
+@import "./assets/sass/global.scss";
 </style>

@@ -2,17 +2,17 @@
     <div class="board-column">
       <div class="board-column__head">
         <div class="board-column__input-container">
-          <input @keypress="resizeInput()" type="text" :id="cardId + 'input'" v-model="textChanged"  class="board-column__input" :class="{'board-column__input--disabled': !writable}"/>
-          <div :id="cardId + 'input-size'" class="board-column__size-input">{{textChanged}}</div>
+          <input @keypress="resizeInput(true)" type="text" :id="cardId + 'input'" :value="text"  class="board-column__input" :class="{'board-column__input--disabled': !writable}"/>
+          <div :id="cardId + 'input-size'" class="board-column__size-input">{{text}}</div>
           <pencil @click="edit()" class="board-column__pencil"/>
         </div>
         <dropdownBtn :id="'drop' + cardId"></dropdownBtn>
       </div>
       <div class="board-column__container">
-        <activity class="board-column__activity" v-for="(el, index) in cards" :key="index" 
-        :percentage="el.percentage" :title="el.title" :subtitle="el.subtitle">
+        <activity class="board-column__activity" v-for="(row, index) in cards" :key="index" 
+        :percentage="row.percentage" :title="row.title" :subtitle="row.subtitle">
         </activity>
-        <addButton class="board-column__btn" :text="'Create Case'"></addButton>
+        <addButton v-if="cardId == 0" class="board-column__btn" :text="'Create Case'"></addButton>
       </div>
     </div>
 </template>
@@ -26,7 +26,6 @@ import pencil from '@/assets/svg/pencil.svg'
     data(){
         return {
           writable: false,
-          textChanged: 'default'
         }
     },
     components:{
@@ -38,15 +37,22 @@ import pencil from '@/assets/svg/pencil.svg'
     props:{
       text: String,
       cards: Array,
-      btn: Boolean,
       cardId: String
     },
 
     methods:{
-      resizeInput() {
+      changeName(value){
+        this.$store.commit('setName', {index: this.cardId, newName: value})
+      },
+      resizeInput(change) {
         var input = document.getElementById(this.cardId + 'input');
         var inputSize = document.getElementById(this.cardId + 'input-size');
-        console.log("inputSize: ", inputSize.width)
+
+        //change name
+        if(change)
+          this.changeName(input.value)
+
+        //update size
         input.style.width = inputSize.offsetWidth + 10 + "px";
       },
       edit(){
@@ -59,13 +65,8 @@ import pencil from '@/assets/svg/pencil.svg'
     },
 
     mounted(){
-      this.textChanged = this.text
-      this.resizeInput();
+      this.resizeInput(false);
     },
-
-    created(){
-
-    }
   }
   
 </script>
@@ -121,6 +122,7 @@ import pencil from '@/assets/svg/pencil.svg'
       max-width: 230px;
       font-family: 'Open Sans';
       text-overflow: ellipsis;
+      text-transform: uppercase;
       &--disabled{
         pointer-events: none;
       }
@@ -132,6 +134,7 @@ import pencil from '@/assets/svg/pencil.svg'
       visibility: hidden;
       height: 0px;
       position: absolute;
+      text-transform: uppercase;
     }
     &__pencil{
       cursor: pointer;
