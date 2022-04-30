@@ -8,9 +8,12 @@
         </div>
         <dropdownBtn :empty="cards.length == 0 ? true : false" :id="cardId"></dropdownBtn>
       </div>
-      <div class="board-column__container">
+      <div class="board-column__container" :id="'col-' + cardId" @drop="onDrop($event, cardId)" @dragenter.prevent @dragover.prevent>
         <activity class="board-column__activity" v-for="(row, index) in cards" :key="index" 
-        :percentage="row.percentage" :title="row.title" :subtitle="row.subtitle" :id="String(cardId + '-' + index)">
+          :percentage="row.percentage" :title="row.title" :subtitle="row.subtitle" :id="String(cardId + '-' + index)"
+          draggable="true"
+          @dragstart="startDrag($event, String(cardId + '-' + index), cardId, index)"
+          >
         </activity>
         <addButton @click.native="createTask()" v-if="cardId == 0" class="board-column__btn" :text="'Create Case'"></addButton>
       </div>
@@ -40,8 +43,52 @@ import pencil from '@/assets/svg/pencil.svg'
       cardId: String
     },
     methods:{
+      startDrag (event, id, colId, index) {
+        event.dataTransfer.dropEffect = 'move'
+        event.dataTransfer.effectAllowed = 'move'
+        event.dataTransfer.setData('itemID', id)
+        event.dataTransfer.setData('colId', colId)
+        event.dataTransfer.setData('indexRow', index)
+  		},
+      getPositionOfList(x, y, index){
+        let elements = document.getElementById('col-' + index).children;
+
+        if(elements.length == 0)
+          return 0
+        
+        let cordinatesCountY = 'x' 
+
+        let indexToSwitch = 0
+
+        for(var i  = 0; i < elements.length; i++){
+          let h5 = elements[i].children[0]
+          let cordinates = h5.getBoundingClientRect();
+          
+          if(cordinatesCountY == 'x'){
+            cordinatesCountY = y - cordinates.bottom
+            continue
+          }
+          if(cordinatesCountY > Math.abs(y - cordinates.bottom)){
+            cordinatesCountY = y - cordinates.bottom
+            indexToSwitch = i
+          }
+        }
+        //check if add to top or bottom of element clicked
+        if(cordinatesCountY < 0)
+          return indexToSwitch - 1
+        else
+          return indexToSwitch
+      },
+  		onDrop (event, list) {
+  			const itemID = event.dataTransfer.getData('itemID')
+        const indexRow = event.dataTransfer.getData('indexRow')
+  			const colId = event.dataTransfer.getData('colId')
+
+        let indexToSetCard = this.getPositionOfList(event.x, event.y, list)
+        //update state
+        this.$store.commit('updateListsAfterDrop', {indexRow: indexRow, colId: colId, listIndex: list, indexToSetCard: indexToSetCard})
+  		},
       createTask(){
-        console.log("entrei")
         this.$store.commit('createTask', this.cardId)
       },
       changeName(value){

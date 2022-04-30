@@ -100,6 +100,17 @@ export const store = createStore({
         createTask(state, index){
             const newRow = {title:'New Case', percentage: "0",subtitle: 'Created right now'}
             state.board[index].rows.push(newRow)
+        },
+        updateListsAfterDrop(state, obj){
+            //add to new list
+            var target = state.board[obj.colId].rows[obj.indexRow]
+            //delete card
+            state.board[obj.colId].rows.splice(obj.indexRow, 1)
+            //add card
+            if(state.board[obj.listIndex].rows.length == obj.indexToSetCard + 1)
+                state.board[obj.listIndex].rows.push({...target})
+            else
+                state.board[obj.listIndex].rows.splice(obj.indexToSetCard + 1, 0, {...target})
         }
     },
     getters: {

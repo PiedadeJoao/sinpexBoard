@@ -28,7 +28,7 @@ import addButton from '@/components/buttons/AddButton.vue'
     methods:{
       addColumn(){
         this.$store.commit('addColumn')
-      }
+      },
     },
     computed:{
       getBoard(){
