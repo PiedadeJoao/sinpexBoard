@@ -91,9 +91,15 @@ export const store = createStore({
             state.board[obj.index].title =  obj.newName
         },
         addColumn(state){
-            console.log("entrei")
             const newColumn = {title:'...', rows: []}
             state.board.push(newColumn)
+        },
+        deleteColumn(state, index){
+            state.board.splice(index, 1)
+        },
+        createTask(state, index){
+            const newRow = {title:'New Case', percentage: "0",subtitle: 'Created right now'}
+            state.board[index].rows.push(newRow)
         }
     },
     getters: {

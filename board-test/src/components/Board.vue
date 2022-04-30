@@ -47,8 +47,9 @@ import addButton from '@/components/buttons/AddButton.vue'
 
   &__container {
     margin-top: 20px;
-    //overflow-x: scroll;
     display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
   }
   &__column {
     &:not(:first-child) {

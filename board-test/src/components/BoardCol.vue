@@ -6,13 +6,13 @@
           <div :id="cardId + 'input-size'" class="board-column__size-input">{{text}}</div>
           <pencil @click="edit()" class="board-column__pencil"/>
         </div>
-        <dropdownBtn :id="'drop' + cardId"></dropdownBtn>
+        <dropdownBtn :id="cardId"></dropdownBtn>
       </div>
       <div class="board-column__container">
         <activity class="board-column__activity" v-for="(row, index) in cards" :key="index" 
         :percentage="row.percentage" :title="row.title" :subtitle="row.subtitle">
         </activity>
-        <addButton v-if="cardId == 0" class="board-column__btn" :text="'Create Case'"></addButton>
+        <addButton @click.native="createTask()" v-if="cardId == 0" class="board-column__btn" :text="'Create Case'"></addButton>
       </div>
     </div>
 </template>
@@ -41,6 +41,10 @@ import pencil from '@/assets/svg/pencil.svg'
     },
 
     methods:{
+      createTask(){
+        console.log("entrei")
+        this.$store.commit('createTask', this.cardId)
+      },
       changeName(value){
         this.$store.commit('setName', {index: this.cardId, newName: value})
       },
@@ -74,6 +78,7 @@ import pencil from '@/assets/svg/pencil.svg'
 <style lang="scss">
   .board-column{
     width: 300px;
+    min-width: 300px;
     background: #F1F1F1;
     position: relative;
     border-radius: 8px;

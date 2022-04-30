@@ -1,8 +1,8 @@
 <template>
-  <div :id="id + 'btn'" class="dropdown">
+  <div class="dropdown">
     <dots @click="toogleDropdown()" class="dropdown__btn"></dots>
-    <div :id="id"  class="dropdown__content" :class="{'dropdown__content--show': show}">
-        <a class="dropdown__option">delete</a>
+    <div :id="'drop' + id"  class="dropdown__content" :class="{'dropdown__content--show': show}">
+        <a @click="deleteColumn()" class="dropdown__option">delete</a>
     </div>
   </div>
 </template>
@@ -24,14 +24,13 @@
     methods: {
         toogleDropdown(){
             this.show = !this.show
+        },
+        deleteColumn(){
+            //validar se tem tarefas
+            this.show = false
+            this.$store.commit("deleteColumn", this.id)
         }
     },
-    mounted(){
-        //close dropdown when click outside of dropdown
-        document.addEventListener('click', function(event){
-             
-        }.bind(this))
-    }
   }
   
 </script>
